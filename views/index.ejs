@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Group Chat</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+    $(document).ready(function(){
+        var socket = io.connect();
+        var user = prompt('Your Name: ')
+        $('#send').click(function(){
+          form = {
+            name: user,
+            message: $('input[name=message]').val()
+        }   
+        socket.emit('button_clicked', form);
+        $('input[type="text"], textarea').val('');
+        })
+        socket.emit('history');
+        socket.on('server_responses', function(data){
+            console.log(data);
+            console.log(data.response)
+            for( var i = 0; i < data.response.length; i++){
+            $('#group_chat').append('<p>'+data.response[i]+'</p>');
+            }
+        })
+        socket.on('server_response', function(data){
+            $('#group_chat').append('<p>'+data.response+'</p>');
+        })
+    });   
+
+    </script>
+</head>
+<body>
+    <h1 id = 'info'>
+        <h2 id = 'number'>
+        </h2>
+    </h1>
+    <h2>Conversation Board</h2>
+    <div id = 'group_chat'></div><br>
+        <input type="text" id = 'message' name="message" placeholder="Enter your message here">
+        <input type="submit" id ='send' value="Send" name="send">
+</body>
+</html>

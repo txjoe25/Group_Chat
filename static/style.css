@@ -1,0 +1,16 @@
+#group_chat{
+	border: solid .1em black;
+	width:90%;
+	overflow-x: scroll;
+	height: 70%;
+}
+#message{
+	width: 90%;
+	border: solid .1em black;
+
+}
+#send{
+	display: block;
+	position: absolute;
+	right: 11em;
+}
